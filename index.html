@@ -85,13 +85,16 @@
     const totalImages = 3; // замени на количество твоих картинок в папке images
 
     function showMessage() {
+      const path = "https://raw.githubusercontent.com/igoshina-dm/universe-hints/main/images"
       const msg = messages[Math.floor(Math.random() * messages.length)];
       const imgNum = Math.floor(Math.random() * totalImages) + 1;
       
       document.getElementById("message").textContent = msg;
-      document.getElementById("cosmic-image").src = images/`${imgNum}.jpg`;
+      console.log(`${path}/${imgNum}.jpg`)
+      document.getElementById("cosmic-image").src = `${path}/${imgNum}.jpg`;
     }
   </script>
 </body>
 </html>
+
 
