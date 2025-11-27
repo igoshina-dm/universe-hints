@@ -1,97 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Подсказка Вселенной</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Подсказки Вселенной</title>
   <style>
     body {
-      margin: 0; padding: 0;
+      margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      min-height: 100vh;
+      background: #000;
+      color: white;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      min-height: 100vh;
       text-align: center;
-      background: #0b0b1d;
-      color: white;
+      padding: 15px;
     }
-    #content {
-      max-width: 90%; padding: 20px;
-    }
-    #image {
-      width: 100%; max-width: 320px; height: auto;
+
+    #cosmic-image {
+      width: 95%;
+      max-width: 600px;
       border-radius: 16px;
       margin: 20px 0;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+      box-shadow: 0 0 20px rgba(100, 100, 255, 0.4);
     }
-    #text {
-      font-size: 18px; line-height: 1.5;
+
+    #message {
+      font-size: 1.5rem;
+      max-width: 600px;
+      line-height: 1.5;
       margin: 20px 0;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+      padding: 15px;
+      background: rgba(0, 0, 30, 0.7);
+      border-radius: 12px;
     }
+
     button {
-      padding: 12px 28px; font-size: 16px;
-      border: none; border-radius: 30px;
-      background: #6a11cb;
-      color: white; cursor: pointer;
-      margin: 10px;
+      padding: 12px 28px;
+      font-size: 1.1rem;
+      background: linear-gradient(45deg, #6a11cb, #2575fc);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: opacity 0.3s;
     }
-    .hidden { display: none; }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    footer {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
   </style>
 </head>
 <body>
-  <div id="start">
-    <h2>✨ Подсказка Вселенной</h2>
-    <p>Нажми — и получи знак</p>
-    <button onclick="showHint()">Получить подсказку</button>
-  </div>
-
-  <div id="content" class="hidden">
-    <img id="image" alt="Подсказка">
-    <div id="text"></div>
-    <button onclick="showHint()">Ещё</button>
-  </div>
+  <h1>🌌 Подсказки Вселенной</h1>
+  <img id="cosmic-image" src="images/1.jpg" alt="Космос">
+  <div id="message">Нажми — получи подсказку от Вселенной!</div>
+  <button onclick="showMessage()">Новая подсказка</button>
+  <footer>Работает даже без интернета 🌠</footer>
 
   <script>
-    // 🌌 СЮДА ВЫ БУДЕТЕ ДОБАВЛЯТЬ СВОИ КАРТИНКИ И ТЕКСТЫ
-    const hints = [
-      // Примеры (замените на свои!)
-      {
-        img: "https://raw.githubusercontent.com/igoshina-dm/universe-hints/main/1.jpg", // луна
-        text: "Ты на правильном пути. Просто доверься."
-      },
-      {
-        img: "https://raw.githubusercontent.com/igoshina-dm/universe-hints/main/2.jpg", // звёзды
-        text: "Вселенная уже готовит для тебя чудо."
-      },
-      {
-        img: "https://raw.githubusercontent.com/igoshina-dm/universe-hints/main/3.jpg", // глаз
-        text: "Ты видишь больше, чем думаешь."
-      },
-      // 👇 ДОБАВЛЯЙТЕ СВОИ СТРОКИ ЗДЕСЬ:
-      // {
-      //   img: "https://ваш-сайт.com/ваша-картинка.jpg",
-      //   text: "Ваша мудрая фраза здесь."
-      // },
+    const messages = [
+      "Ты на правильном пути. Просто иди дальше.",
+      "Слушай своё сердце — оно знает ответ.",
+      "Всё, что тебе нужно, уже внутри тебя.",
+      "Отпусти контроль. Вселенная позаботится обо всём.",
+      "Сегодня — идеальный день для маленького шага вперёд.",
+      "Ты сильнее, чем думаешь.",
+      "Доверься потоку жизни.",
+      "Твоё предназначение раскрывается постепенно — будь терпелив(а).",
+      "Любовь — твой главный компас.",
+      "Ты — со-творец своей реальности.",
+      "Не бойся тишины — в ней рождаются ответы.",
+      "Твоя интуиция — голос Вселенной."
     ];
 
-    function showHint() {
-      if (hints.length === 0) {
-        document.getElementById('text').innerText = "Нет подсказок. Добавьте их в код!";
-        return;
-      }
+    const totalImages = 3; // замени на количество твоих картинок в папке images
 
-      const random = hints[Math.floor(Math.random() * hints.length)];
-      document.getElementById('image').src = random.img + '?t=' + Date.now(); // обход кэша
-      document.getElementById('text').innerText = random.text;
-
-      document.getElementById('start').classList.add('hidden');
-      document.getElementById('content').classList.remove('hidden');
+    function showMessage() {
+      const msg = messages[Math.floor(Math.random() * messages.length)];
+      const imgNum = Math.floor(Math.random() * totalImages) + 1;
+      
+      document.getElementById("message").textContent = msg;
+      document.getElementById("cosmic-image").src = images/`${imgNum}.jpg`;
     }
   </script>
 </body>
-
 </html>
